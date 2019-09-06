@@ -7,13 +7,12 @@
 }
 
 #calc {
+    position: relative;
+    width : 188px;
+    height: 247px;
+    margin: 0px auto 0px auto;
 
-position: relative;
-width : 188px;
-height: 247px;
-margin: 0px auto 0px auto;
-
-background-color: aquamarine;
+    background-color: aquamarine;
 
 }
 
