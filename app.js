@@ -22,8 +22,49 @@ window.onload = function(){
     const btnEq = document.getElementById("btnEq")
     const btnPlus = document.getElementById("btnPlus")
 
+    var firstValue = NaN;
+    var secondValue = NaN;
+
     const numberOnClick = function(event){
         display.innerText += event.target.textContent
+    }
+
+
+    const operatorFunction = function(event){
+        if (isNaN(firstValue)){
+            firstValue = parseFloat(display.innerText);
+        } 
+        display.innerText = ""
+        selectedOperator = event.target.textContent
+        console.log("FirstValue", firstValue)
+        console.log("selectedOperator", selectedOperator)
+    }
+
+    btnEq.onclick = function(event){
+        if (isNaN(secondValue)){
+            secondValue = parseFloat(display.innerText);
+        }
+        //secondValue =parseFloat(event.target.textContent)
+        let result
+
+        switch (selectedOperator) {
+            case '+':
+                result = firstValue + secondValue;            
+                break;
+            case '*':
+                result = firstValue * secondValue;
+                break;
+            case '-':
+                result = firstValue - secondValue;
+                break;
+            case '/':
+                result = firstValue / secondValue;
+                break;
+        
+            default:
+                break;
+        }
+        display.innerText = result
     }
 
     btnCero.onclick = numberOnClick
@@ -45,45 +86,9 @@ window.onload = function(){
     btnDiv.onclick = operatorFunction
     btnDot.onclick = operatorFunction
 
-    btnMclear.onclick = numberOnClick
+    btnMclear.onclick = numberOnClick //Clear y reinicialiar variables
     btnMplus.onclick = numberOnClick
     btnMrest.onclick = numberOnClick
-
-
-const operatorFunction = function(event){
-    firstValue = parseFloat(display.innerText)
-    display.innerText = ""
-    selectedOperator = event.target.textContent
-    console.log("FirstValue", firstValue)
-    console.log("selectedOperator", selectedOperator)
-}
-
-    btnEq.onclick = function(event){
-        secondValue =parseFloat(event.target.textContent)
-        let result
-
-        switch (selectedOperator) {
-            case '+':
-                result = firstValue + secondValue
-            
-            case '*':
-                result = firstValue * secondValue
-
-            case '-':
-                result = firstValue - secondValue
-
-            case '/':
-                result = firstValue / secondValue
-                
-                break;
-        
-            default:
-                break;
-        }
-        display.innerText = result
-    }
-
-
 
 }
 
