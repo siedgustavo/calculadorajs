@@ -22,8 +22,8 @@ window.onload = function(){
     const btnEq = document.getElementById("btnEq")
     const btnPlus = document.getElementById("btnPlus")
 
-    var firstValue = NaN;
-    var secondValue = NaN;
+    var firstValue
+    var secondValue
 
     const numberOnClick = function(event){
         display.innerText += event.target.textContent
@@ -41,30 +41,38 @@ window.onload = function(){
     }
 
     btnEq.onclick = function(event){
+
+        const options = {
+            baseURL: "http://localohst:3000/",
+            timeout: 5000,
+            method:  "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+
+
+        //fetch("http://localhost:3000/getresult", options).then((response) => {
+        //    console.log(response)
+        //})
+
         if (isNaN(secondValue)){
             secondValue = parseFloat(display.innerText);
         }
         //secondValue =parseFloat(event.target.textContent)
         let result
 
-        switch (selectedOperator) {
-            case '+':
-                result = firstValue + secondValue;            
-                break;
-            case '*':
-                result = firstValue * secondValue;
-                break;
-            case '-':
-                result = firstValue - secondValue;
-                break;
-            case '/':
-                result = firstValue / secondValue;
-                break;
+        fetch(`http://localhost:3000/getresult/${firstValue}/${secondValue}/${selectedOperator}`, options)
+        .then(res => res.json())
+        .then((response) => {
+            console.log(response)
+            display.innerText = response.result
+        })
         
-            default:
-                break;
-        }
-        display.innerText = result
+        //Limpiar variables
+        delete firstValue
+        delete secondValue
+
     }
 
     btnCero.onclick = numberOnClick
@@ -86,9 +94,9 @@ window.onload = function(){
     btnDiv.onclick = operatorFunction
     btnDot.onclick = operatorFunction
 
-    btnMclear.onclick = numberOnClick //Clear y reinicialiar variables
-    btnMplus.onclick = numberOnClick
-    btnMrest.onclick = numberOnClick
+    //btnMclear.onclick = memOnClick
+    //btnMplus.onclick = memOnClick
+    //btnMrest.onclick = memOnClick
 
 }
 
