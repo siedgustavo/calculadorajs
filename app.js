@@ -24,16 +24,26 @@ window.onload = function(){
 
     var firstValue
     var secondValue
+    flag = 0
 
     const numberOnClick = function(event){
-        display.innerText += event.target.textContent
+        if(flag == 1){
+            flag = 0
+            display.innerText = event.target.textContent
+        }else{
+            display.innerText += event.target.textContent
+        }
+    }
+
+    const operatorClear = function(event){
+        display.innerText = ""       
+        console.log(firstValue)
+        console.log(secondValue)
     }
 
 
     const operatorFunction = function(event){
-        if (isNaN(firstValue)){
-            firstValue = parseFloat(display.innerText);
-        } 
+        firstValue = parseFloat(display.innerText);
         display.innerText = ""
         selectedOperator = event.target.textContent
         console.log("FirstValue", firstValue)
@@ -52,27 +62,50 @@ window.onload = function(){
         }
 
 
-        //fetch("http://localhost:3000/getresult", options).then((response) => {
-        //    console.log(response)
-        //})
-
-        if (isNaN(secondValue)){
+        if (!isNaN(display.innerText)){
             secondValue = parseFloat(display.innerText);
         }
-        //secondValue =parseFloat(event.target.textContent)
+
         let result
 
-        fetch(`http://localhost:3000/getresult/${firstValue}/${secondValue}/${selectedOperator}`, options)
-        .then(res => res.json())
-        .then((response) => {
-            console.log(response)
-            display.innerText = response.result
-        })
+        switch (selectedOperator) {
+            case '+':
+                    fetch(`http://localhost:3000/suma/${firstValue}/${secondValue}/`, options)
+                    .then(res => res.json())
+                    .then((response) => {
+                        console.log(response)
+                        display.innerText = response.result
+                    })
+                break;
+            case '*':
+                    fetch(`http://localhost:3000/multiplica/${firstValue}/${secondValue}/`, options)
+                    .then(res => res.json())
+                    .then((response) => {
+                        console.log(response)
+                        display.innerText = response.result
+                    })
+                break;
+            case '-':
+                    fetch(`http://localhost:3000/resta/${firstValue}/${secondValue}/`, options)
+                    .then(res => res.json())
+                    .then((response) => {
+                        console.log(response)
+                        display.innerText = response.result
+                    })
+                break;
+            case '/':
+                    fetch(`http://localhost:3000/divide/${firstValue}/${secondValue}/`, options)
+                    .then(res => res.json())
+                    .then((response) => {
+                        console.log(response)
+                        display.innerText = response.result
+                    })
+                break;
         
-        //Limpiar variables
-        delete firstValue
-        delete secondValue
-
+            default:
+                break;
+        }
+    flag = 1
     }
 
     btnCero.onclick = numberOnClick
@@ -87,16 +120,18 @@ window.onload = function(){
     btnSix.onclick = numberOnClick
     btnTree.onclick = numberOnClick
     btnTwo.onclick = numberOnClick
+    btnDot.onclick = numberOnClick
 
     btnPlus.onclick = operatorFunction
     btnAst.onclick = operatorFunction
-    btnC.onclick = operatorFunction
     btnDiv.onclick = operatorFunction
-    btnDot.onclick = operatorFunction
 
     //btnMclear.onclick = memOnClick
     //btnMplus.onclick = memOnClick
     //btnMrest.onclick = memOnClick
+
+    btnC.onclick = operatorClear
+
 
 }
 
